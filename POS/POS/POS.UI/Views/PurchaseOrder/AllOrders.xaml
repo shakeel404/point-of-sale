@@ -1,0 +1,175 @@
+﻿<UserControl x:Class="POS.UI.Views.PurchaseOrder.AllOrders"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:POS.UI.Views.PurchaseOrder"
+             xmlns:reuse="clr-namespace:POS.UI.Views.Reusable"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:converters="clr-namespace:POS.UI.Utils.Converters"
+             xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:NullToVisibilityConverter x:Key="converter"/>
+    </UserControl.Resources>
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="2*"/>  
+        </Grid.ColumnDefinitions>
+        <GroupBox Grid.Column="0"  Header="Orders"  >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <reuse:Paginator DataContext="{Binding}" Grid.Row="0" Margin="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <ListBox x:Name="OrdersList" Grid.Row="1" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedOrder,UpdateSourceTrigger=PropertyChanged}" >
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush3}"  Margin="0">
+                                <Grid Margin="3">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="3*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                        
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2 0 0 0">
+                                        <TextBlock Text="{Binding Supplier.Name}" FontSize="13" FontWeight="SemiBold"/>
+                                        <TextBlock Text="{Binding Supplier.Contact}" FontSize="11" />
+                                        <TextBlock Text="{Binding Supplier.Address}" FontSize="9"  />
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Vertical" Margin="0 0 2 0">
+                                        <TextBlock Text="Order Date" FontSize="12" FontWeight="Bold" Foreground="{DynamicResource AccentBaseColorBrush}"/>
+                                        <TextBlock Text="{Binding OrderDate,StringFormat='{}{0:ddd d MMM yyyy}'}" FontSize="12" FontWeight="SemiBold" />
+
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Grid.Column="1" Header="Order Details">
+
+            <TabControl controls:ControlsHelper.HeaderFontSize="18"  controls:ControlsHelper.HeaderFontWeight="SemiBold"  controls:TabControlHelper.Underlined="SelectedTabItem">
+
+                <TabItem >
+                    <TabItem.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" >
+                                <icons:PackIconMaterial Kind="FormatListBulletedSquare" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Height="20"/>
+                                <TextBlock Text="Products" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5 0 0 0" FontWeight="SemiBold"></TextBlock>
+
+                            </StackPanel>
+                        </DataTemplate>
+                    </TabItem.HeaderTemplate>
+                    <Grid Margin="5 10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Visibility="{Binding ElementName=ProductsList, Path=SelectedItem,Converter={StaticResource converter}}"
+                                      Margin="0 5"
+                                    Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <controls:NumericUpDown Value="{Binding SelectedOrderDetail.Quantity}" controls:TextBoxHelper.Watermark="Quantity" controls:TextBoxHelper.UseFloatingWatermark="True" Margin="10 0 0 0" Width="150"/>
+                            <controls:NumericUpDown Value="{Binding SelectedOrderDetail.PurchasePrice}" controls:TextBoxHelper.Watermark="Purchase Price" controls:TextBoxHelper.UseFloatingWatermark="True" Margin="10 0 0 0" Width="150"/>
+                            <controls:NumericUpDown Value="{Binding SelectedOrderDetail.SalePrice}" controls:TextBoxHelper.Watermark="Sale Price" controls:TextBoxHelper.UseFloatingWatermark="True" Margin="10 0 0 0" Width="150"/>
+
+                            <Button  Command="{Binding UpdatePurchaseDetailCommand}" Width="100"  Margin="10 0 0 0"
+                            Style="{StaticResource AccentedSquareButtonStyle}"   HorizontalAlignment="Right">Save</Button> 
+                        </StackPanel>
+                        <Border Grid.Row="1" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush3}"/>
+                        <DataGrid x:Name="ProductsList" Grid.Row="2" SelectedItem="{Binding SelectedOrderDetail}"  ItemsSource="{Binding SelectedItem.OrderDetails,ElementName=OrdersList}" 
+                                  AutoGenerateColumns="False"  Style="{StaticResource AzureDataGrid}" CanUserAddRows="False"     >
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="UPC" Binding="{Binding Product.UPC}" Width="150"/>
+                                <DataGridTextColumn Header="Name" Binding="{Binding Product.Name}" Width="300"/>
+                                <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}"/>
+                                <DataGridTextColumn Header="Purchase" Binding="{Binding PurchasePrice}"/>
+                                <DataGridTextColumn Header="Sale" Binding="{Binding SalePrice}"/>
+                            </DataGrid.Columns>   
+                        </DataGrid>
+                    </Grid>
+
+                </TabItem>
+                <TabItem>
+                    <TabItem.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" >
+                                <icons:PackIconMaterial Kind="CashRegister" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Height="20"/>
+                                <TextBlock Text="Payments" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5 0 0 0" FontWeight="SemiBold"></TextBlock>
+
+                            </StackPanel>
+                        </DataTemplate>
+                    </TabItem.HeaderTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <GroupBox Header="Total" Grid.Column="0">
+                            <StackPanel Orientation="Vertical"  Margin="5 10" 
+                                  Visibility="{Binding SelectedOrder,Converter={StaticResource converter}}"  >
+                              
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource AccentColorBrush}">
+                                    
+                                    Quantity</TextBlock>
+                                    <Border BorderThickness="1" BorderBrush="{DynamicResource BlackBrush}" Margin="1 2">
+                                        <TextBlock Text="{Binding TotalQuantity}" FontSize="14" FontWeight="SemiBold" Margin="5 3 " />
+                                    </Border> 
+                                </StackPanel>
+
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource AccentColorBrush}">
+                                    
+                                    Total</TextBlock>
+                                    <Border BorderThickness="1" BorderBrush="{DynamicResource BlackBrush}" Margin="1 2">
+                                        <TextBlock Text="{Binding GrandTotal}" FontSize="14" FontWeight="SemiBold" Margin="5 3 " />
+                                    </Border>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource AccentColorBrush}">
+                                    
+                                    Payment</TextBlock>
+                                    <Border BorderThickness="1" BorderBrush="{DynamicResource BlackBrush}" Margin="1 2">
+                                        <TextBlock Text="{Binding TotalPayment}" FontSize="14" FontWeight="SemiBold" Margin="5 3 " />
+                                    </Border>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource AccentColorBrush}">
+                                    
+                                    Dues</TextBlock>
+                                    <Border BorderThickness="1" BorderBrush="{DynamicResource BlackBrush}" Margin="1 2">
+                                        <TextBlock Text="{Binding TotalDues}" FontSize="14" FontWeight="SemiBold" Margin="5 3 " />
+                                    </Border>
+                                </StackPanel>
+                            </StackPanel>
+
+                        </GroupBox>
+                        <GroupBox Header="Payments" Grid.Column="1" >
+                            <DataGrid x:Name="PaymentList"  ItemsSource="{Binding SelectedItem.Payments,ElementName=OrdersList}" 
+                                  AutoGenerateColumns="False"  Style="{StaticResource AzureDataGrid}" CanUserAddRows="False"     >
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Amount" Binding="{Binding Amount}" Width="150"/>
+                                    <DataGridTextColumn Header="Date" Binding="{Binding Date,StringFormat='{}{0:ddd d MMM yyyy}'}" Width="150"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                        </GroupBox>
+                    </Grid>
+                   
+                </TabItem>
+            </TabControl>
+        
+        </GroupBox>
+    </Grid>
+</UserControl>

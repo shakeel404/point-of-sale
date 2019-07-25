@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="POS.UI.Views.Product.Add"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+              xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+              Dialog:DialogParticipation.Register="{Binding}" 
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+               Width="Auto" Height="100">
+    
+    <Grid HorizontalAlignment="Left" VerticalAlignment="Center">
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <StackPanel Orientation="Horizontal">
+                <TextBox   Text="{Binding UPC,UpdateSourceTrigger=PropertyChanged}" MaxLength="25" Margin="10 0 0 0" Controls:TextBoxHelper.Watermark="UPC Number" Width="200" Controls:TextBoxHelper.UseFloatingWatermark="True" Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.IsSpellCheckContextMenuEnabled="True"/>
+                <TextBox   Text="{Binding Name,UpdateSourceTrigger=PropertyChanged}" MaxLength="50" Margin="10 0 0 0" Controls:TextBoxHelper.Watermark="Product Name" Width="200" Controls:TextBoxHelper.UseFloatingWatermark="True" Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.IsSpellCheckContextMenuEnabled="True"/>
+                <Controls:NumericUpDown   Value="{Binding Quantity,UpdateSourceTrigger=PropertyChanged}" Minimum="0" Margin="10 0 0 0" Controls:TextBoxHelper.Watermark="Quantity" Width="150" Controls:TextBoxHelper.UseFloatingWatermark="True"   />
+                <Controls:NumericUpDown   Value="{Binding PurchasePrice,UpdateSourceTrigger=PropertyChanged}" Minimum="0" Margin="10 0 0 0" Controls:TextBoxHelper.Watermark="Purchase Price" Width="150" Controls:TextBoxHelper.UseFloatingWatermark="True"   />
+                <Controls:NumericUpDown   Value="{Binding SalePrice,UpdateSourceTrigger=PropertyChanged}" Minimum="0" Margin="10 0 0 0" Controls:TextBoxHelper.Watermark="Sale Price" Width="150" Controls:TextBoxHelper.UseFloatingWatermark="True"   />
+                <Button   Command="{Binding SaveCommand}" Margin="10 0 0 0" Width="150"  Style="{StaticResource AccentedSquareButtonStyle}" IsDefault="True">Save</Button>
+            </StackPanel>
+        </ScrollViewer>
+       
+    </Grid>
+</UserControl>

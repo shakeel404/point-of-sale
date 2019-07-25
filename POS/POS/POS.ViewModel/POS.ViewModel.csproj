@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.0.0" />
+    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0262" />
+    <PackageReference Include="Prism.Core" Version="7.2.0.1038-pre" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\POS.Model\POS.Model.csproj" />
+    <ProjectReference Include="..\POS.Repository\POS.Repository.csproj" />
+  </ItemGroup>
+
+</Project>

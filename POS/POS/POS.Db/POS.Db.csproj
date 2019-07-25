@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20190411074856_UPCAdded.cs" />
+    <Compile Remove="Migrations\20190411074856_UPCAdded.Designer.cs" />
+    <Compile Remove="Migrations\20190413114155_Supplier.cs" />
+    <Compile Remove="Migrations\20190413114155_Supplier.Designer.cs" />
+    <Compile Remove="Migrations\20190415111146_PurchaseOrder_AndDetails.cs" />
+    <Compile Remove="Migrations\20190415111146_PurchaseOrder_AndDetails.Designer.cs" />
+    <Compile Remove="Migrations\20190415112223_PurchaseOrder_PurchaseOrderDetails.cs" />
+    <Compile Remove="Migrations\20190415112223_PurchaseOrder_PurchaseOrderDetails.Designer.cs" />
+    <Compile Remove="Migrations\20190415113531_PurchaseOrder_PurchaseOrderDetails_V2.cs" />
+    <Compile Remove="Migrations\20190415113531_PurchaseOrder_PurchaseOrderDetails_V2.Designer.cs" />
+    <Compile Remove="Migrations\20190415114031_Purchase.cs" />
+    <Compile Remove="Migrations\20190415114031_Purchase.Designer.cs" />
+    <Compile Remove="Migrations\20190415121321_Id_Sequence.cs" />
+    <Compile Remove="Migrations\20190415121321_Id_Sequence.Designer.cs" />
+    <Compile Remove="Migrations\20190418110320_PurchsePayment.cs" />
+    <Compile Remove="Migrations\20190418110320_PurchsePayment.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.0.0-preview3.19153.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.0.0-preview3.19153.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.0.0-preview3.19153.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.0.0-preview3.19153.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference> 
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\POS.Model\POS.Model.csproj" />
+  </ItemGroup>
+
+</Project>
